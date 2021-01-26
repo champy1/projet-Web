@@ -14,7 +14,7 @@
       "runtimeExecutable": "nodemon",
       "env": {
         "NODE_ENV": "development",
-        "DEBUG": "express-ejs-template:*"
+        "DEBUG": "projet-web:*"
       },
       "skipFiles": ["<node_internals>/**"],
       "type": "pwa-node"

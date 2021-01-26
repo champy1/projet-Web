@@ -1,4 +1,4 @@
-# Express-ejs-template
+# projet-web
 
 Steps to reproduce:
 
