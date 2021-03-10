@@ -6,7 +6,7 @@
     "name": "Restaurant la-Signare",
     "outcode": "CF24",
     "postcode": "3JH",
-    "rating": 5.5,
+    "rating": "26 €",
     "type_of_food": "Dibi Sénégal avec sauce marinée"
 }, {
     "URL": "https://www.thefork.be/restaurant/kicoucou-r570475/menu",
@@ -16,7 +16,7 @@
     "name": "Restaurant Kicoucou",
     "outcode": "SS9",
     "postcode": "5PT",
-    "rating": 5.5,
+    "rating": "20 €",
     "type_of_food": "FILET DE BAR + 1 SIDE AU CHOIX"
 }, {
     "URL": "https://www.thefork.be/restaurant/cauri-bar-r550853/menu",
@@ -26,7 +26,7 @@
     "name": "Restaurant Cauri-Bar",
     "outcode": "W6",
     "postcode": "8NX",
-    "rating": 4.5,
+    "rating": "25 €",
     "type_of_food": "Chèvre grillée"
 }, {
     "URL": "https://www.thefork.be/restaurant/le-grand-bassam-r61359/menu",
@@ -36,7 +36,7 @@
     "name": "Restaurant le-Grand-Bassam",
     "outcode": "W6",
     "postcode": "8NX",
-    "rating": 4.5,
+    "rating": "26 €",
     "type_of_food": "Sause graine avec foutou"
 }, {
     "URL": "https://www.thefork.be/restaurant/ma-folle-de-soeur-r463313/menu",
@@ -46,6 +46,6 @@
     "name": "Rrestaurant Ma-folle-de-soeur",
     "outcode": "CH4",
     "postcode": "0QR",
-    "rating": 6,
+    "rating": "49 €",
     "type_of_food": "Cabillaud rôti en croute au basilic tombé de tomate purée"
 }]
