@@ -1,0 +1,45 @@
+<%- include('partial/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Gestionnaire</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des commandes </li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <div class="row" style="display: block;margin: 0px auto;">
+                        <button onclick="ViderPile()" class="btn btn-lg btn-danger">
+                            VIDER LA PILE DE COMMANDE
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partial/Footer') %>
+    <script>
+        function ViderPile() {
+                $('#modal_load').modal();
+                let Id = $("#IdCommand").val();
+                $.post("/ViderPile", {}, function (donnees) {
+                    setTimeout(() => {
+                        $('#modal_load').modal('hide');
+                        if (donnees == 0) {
+                            $("#message").html("Echec lors de la reinitialisation");
+                            $("#modal_message").modal();
+                        } else if (donnees == 1) {
+                            $("#message").html("Reinitialisation effectuée avec succès ...");
+                            $("#modal_message").modal();
+                            setTimeout(() => {
+                                location.assign("/Gestionnaire");
+                            }, 1500);
+                        }
+                    }, 1000);
+
+                });
+            }
+    </script>

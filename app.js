@@ -1,26 +1,27 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const express = require('express')
+const app = express()
+const port = 3000
+const bodyParser = require('body-parser')
+const ClientRouter = require('./routes/client');
+const EmployeRouter = require('./routes/employe');
+const GestionnaireRouter = require('./routes/gestionnaire');
+const LivreurRouter = require('./routes/livreur');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+app.use(express.static('public'))
+app.use('/css', express.static(__dirname + 'public/css'))
+app.use('/js', express.static(__dirname + 'public/js'))
+app.use('/img', express.static(__dirname + 'public/img'))
+app.use('/assets', express.static(__dirname + 'public/assets'))
+app.use(bodyParser.urlencoded({ extended: true }))
 
-const app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+app.set('views', './views')
+app.set('view engine', 'ejs')
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', ClientRouter);
+app.use('/', EmployeRouter);
+app.use('/', GestionnaireRouter);
+app.use('/', LivreurRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -38,5 +39,7 @@ app.use((err, req, res, next) => {
   res.status(status);
   res.render('error', { title: `Error ${status}` });
 });
+
+app.listen(port, () => console.info(`Lancé sur le port ${port}`))
 
 module.exports = app;

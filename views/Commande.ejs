@@ -1,0 +1,208 @@
+<%- include('partial2/Header')  %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Nouvelle commande</li>
+        </ol>
+    </nav>
+    <h2 style="text-align: center;">PASSEZ UNE COMMANDE
+    </h2>
+
+    <form class="row form-commande" action="/valider_commande" method="POST">
+        <div class="col-md-10" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content">
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                    <%= Resto.address %>
+
+                                </td>
+                                <td>
+
+                                    <%= Resto.address_short %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.name %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.rating %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.type_of_food %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="form-group row">
+                        <input type="hidden" name="Resto" value="<%= Resto.id %>">
+                        <div class="col-md-4 col-sm-4">
+                            <label for="Nom">
+                                            <span class="fa fa-user-md" aria-hidden="true"></span>
+                                            Nom & Prénom<span class="text-primary">*</span>
+                                        </label>
+                            <input id="Nom" name="Nom" type="text" autofocus class="form-control form-control-sm" placeholder="ex: James R.">
+                            <span id="SpanNom" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="Sexe">
+                                            <span class="fa fa-male" aria-hidden="true"></span>
+                                            Sexe
+                                        </label>
+                            <select id="Sexe" name="Sexe" class="form-control form-control-sm">
+                                            <option value="Homme">Homme</option>
+                                            <option value="Femme">Femme</option>
+                                        </select>
+                        </div>
+                        <div class="col-md-4 col-sm-4">
+                            <label for="Telephone">
+                                            <span class="fa fa-phone" aria-hidden="true"></span>
+                                            Téléphone<span class="text-primary">*</span>
+                                        </label>
+                            <input id="Telephone" name="Telephone" onkeypress="isInputNumber(event)" type="text" class="form-control form-control-sm" placeholder="ex: 696.......">
+                            <span id="SpanTelephone" class="text-danger"></span>
+                        </div>
+
+                    </div><br>
+                    <div class="form-group row">
+                        <div class="col-md-3 col-sm-3">
+                            <label for="NombreRepas">
+                                            <span class="fa fa-plus" aria-hidden="true"></span>
+                                            Nombre de repas<span class="text-primary">*</span>
+                                        </label>
+                            <input id="NombreRepas" name="NombreRepas" onkeypress="isInputNumber(event)" type="number" class="form-control form-control-sm" max="20" value="1" min="1">
+                            <span id="SpanNombreRepas" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="Rue">
+                                            <span class="fa fa-map-marker" aria-hidden="true"></span>
+                                            Rue<span class="text-primary">*</span>
+                                        </label>
+                            <input id="Rue" name="Rue" type="text" class="form-control form-control-sm" placeholder="ex: Rue de la joie">
+                            <span id="SpanRue" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="NumeroMaison">
+                                            <span class="fa fa-institution" aria-hidden="true"></span>
+                                            N° de maison
+                                        </label>
+                            <input id="NumeroMaison" name="NumeroMaison" type="text" class="form-control form-control-sm" placeholder="ex: 103">
+                            <span id="SpanNumeroMaison" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <label for="NumeroBoite">
+                                            <span class="fa fa-dropbox" aria-hidden="true"></span>
+                                            N° de Boîte
+                                        </label>
+                            <input id="NumeroBoite" name="NumeroBoite" type="text" class="form-control form-control-sm" placeholder="ex: 77">
+                            <span id="SpanNumeroBoite" class="text-danger"></span>
+                        </div>
+
+                    </div><br>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <label for="CodePostal">
+                                            <span class="fa fa-slack" aria-hidden="true"></span>
+                                            Code postal<span class="text-primary">*</span>
+                                        </label>
+                            <input id="CodePostal" name="CodePostal" nkeypress="isInputNumber(event)" type="number" min="1000" value="1001" max="9999" class="form-control form-control-sm" placeholder="ex: 7621">
+                            <span id="SpanCodePostal" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <label for="Commune">
+                                            <span class="fa fa-institution" aria-hidden="true"></span>
+                                           Commune<span class="text-primary">*</span>
+                                        </label>
+                            <input id="Commune" name="Commune" type="text" class="form-control form-control-sm" placeholder="ex: Douala 3e">
+                            <span id="SpanCommune" class="text-danger"></span>
+                        </div>
+                    </div><br>
+                    <div class="form-group row">
+                        <div class="col-md-6 col-sm-6">
+                            <a class="btn btn-danger btn-sm btn-block" href="/Home"><span class="fa fa-map-marker"> </span> Retour à la Liste </a>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <button type="submit" class="btn btn-primary btn-sm btn-block"><span class="fa fa-save"> </span> Valider la commande </button>
+                        </div>
+                    </div><br>
+                    <p>
+                        NB: Les champs suffixés d'un <span class="text-primary">*</span> sont Obligatoire
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    </div>
+
+
+
+    <%- include('partial2/Footer')  %>
+        <script>
+            let Nom, Sexe, Telephone, NombreRepas, Rue, NumeroMaison, NumeroBoite, CodePostal, Commune;
+            let SpanNom, SpanSexe, SpanTelephone, SpanNombreRepas, SpanRue, SpanNumeroMaison, SpanNumeroBoite, SpanCodePostal, SpanCommune;
+            SpanNom = $("#SpanNom");
+            SpanSexe = $("#SpanSexe");
+            SpanNombreRepas = $("#SpanNombreRepas");
+            SpanTelephone = $("#SpanTelephone");
+            SpanRue = $("#SpanRue");
+            SpanNumeroMaison = $("#SpanNumeroMaison");
+            SpanNumeroBoite = $("#SpanNumeroBoite");
+            SpanCodePostal = $("#SpanCodePostal");
+            SpanCommune = $("#SpanCommune");
+            $('.form-commande').submit(function(e) {
+                let IsGood = true;
+                Nom = $("#Nom").val().trim();
+                Sexe = $("#Sexe").val().trim();
+                NombreRepas = $("#NombreRepas").val();
+                Telephone = $("#Telephone").val().trim();
+                Rue = $("#Rue").val().trim();
+                NumeroMaison = $("#NumeroMaison").val().trim();
+                NumeroBoite = $("#NumeroBoite").val().trim();
+                CodePostal = $("#CodePostal").val().trim();
+                Commune = $("#Commune").val().trim();
+
+                if (Nom == '') {
+                    SpanNom.html("Chaine de caractères non vide");
+                    IsGood = false;
+                } else {
+                    SpanNom.html('');
+                }
+                if (NombreRepas < 1 || NombreRepas > 20) {
+                    IsGood = false;
+                    SpanNombreRepas.html("Nombre entier positif compris entre 1 et 20");
+                } else {
+                    SpanNombreRepas.html('');
+                }
+                if (CodePostal < 1000 || CodePostal > 9999) {
+                    IsGood = false;
+                    SpanCodePostal.html("Nombre entier compris entre 1000 et 9999");
+                } else {
+                    SpanCodePostal.html('');
+                }
+                if (Rue == '') {
+                    IsGood = false;
+                    SpanRue.html("Chaine de caractères non vide");
+                } else {
+                    SpanRue.html('');
+                }
+                if (Commune == '') {
+                    IsGood = false;
+                    SpanCommune.html("Chaine de caractères non vide");
+                } else {
+                    SpanCommune.html('');
+                }
+
+                if (!IsGood) {
+                    e.preventDefault();
+                }
+            });
+        </script>

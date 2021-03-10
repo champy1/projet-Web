@@ -1,0 +1,76 @@
+<%- include('partial/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des restaurants</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <h2>VEUILLEZ CHOISIR UN RESTAURANT</h2>
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Adress</th>
+                                <th>Ville</th>
+                                <th>Nom</th>
+                                <th>Spécialité</th>
+                                <th>Nombre commande prete</th>
+                                <th>-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let i=1; for (const resto of ListeRestos) { %>
+                                <% if(resto.CommandePreparee> 0) { %>
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <%= i %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <a href="/ListeCommandeNonPreparee/<%= resto.id %>">
+                                                <%= resto.address %>
+                                            </a>
+
+                                        </td>
+                                        <td>
+                                            <a href="/ListeCommandeNonPreparee/<%= resto.id %>">
+                                                <%= resto.address_short %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/ListeCommandeNonPreparee/<%= resto.id %>">
+                                                <%= resto.name %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/ListeCommandeNonPreparee/<%= resto.id %>">
+                                                <%= resto.type_of_food %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%= resto.CommandePreparee%>
+                                        </td>
+                                        
+                                    <td>
+                                        <a href="/RetirerCommande/<%= resto.id %>/<%= JSON.stringify(Livreur) %>" class="btn btn-primary btn-sm btn-block">
+                                            Choisir
+                                        </a>
+                                    </td>
+                                    </tr>
+                                    <% i++ } %>
+
+                                        <%  } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partial/Footer') %>

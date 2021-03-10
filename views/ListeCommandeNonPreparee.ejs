@@ -1,0 +1,169 @@
+<%- include('partial2/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des commandes non préparées</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <div class="row">
+
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeAPreparer">
+                                <%= NombreCommandeAPreparer %>
+                            </h1>
+                            <span class="price-tax">Commandes à Préparer</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandePreparerNonEnleve">
+                                <%= NombreCommandePreparerNonEnleve %>
+                            </h1>
+                            <span class="price-tax">Commandes non enlevées</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeDejaEnleve">
+                                <%= NombreCommandeDejaEnleve %>
+                            </h1>
+                            <span class="price-tax">Commandes déjà enlevées</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="DelaiMoyenPreparation">
+                                <%= DelaiMoyenPreparation %> H
+                            </h1>
+                            <span class="price-tax">Délai moyen de préparation</span>
+                            <br>
+                        </div>
+                    </div>
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Client</th>
+                                <th>Nombre de repas</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyListe">
+                            <% let i=1; for (const Commande of ListeCommandeNonPreparee) { %>
+                                <tr>
+                                    <td>
+                                        <span>
+                                            <%= i %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <%=(moment(Commande.Date).format('MM-DD-YYYY HH:mm:ss'))%>
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <%= Commande.Nom %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            <%= Commande.NombreRepas %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#"
+                                            onclick="ShowConfirmModalCommand('<%= Commande.IdCommand %>','<%= Commande.NombreRepas %>')"
+                                            class="btn btn-primary btn-sm btn-block">
+                                            commande prête </a>
+                                    </td>
+                                </tr>
+                                <% i++ } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="ConfirmModalCommand" tabindex="-1"
+        role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <input type="hidden" id="IdCommand" name="">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Valider la commande comme prête!</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Cette commande contient bien <span id="IdNbreRepas"></span> Plat(s)</p>
+                    <p>Veuillez confirmer votre action?.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                    <button type="button" onclick='CommandePrete()' data-dismiss="modal"
+                        class="btn btn-danger">OUI</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <%- include('partial2/Footer') %>
+        <script>
+            function RefreshData() {
+                let IdResto = "<%- IdResto %>";
+                $.post("/refreshListeCommandeNonPreparee", {
+                    id: IdResto
+                }, function (donnees) {
+                    let res = JSON.parse(donnees);
+                    let string = "";
+                    let i = 1;
+                    for (const Commande of res.ListeCommandeNonPreparee) {
+                        string += '<tr><td><span>' + i + '</span> </td><td><a href = "#">' + (Commande.Date) + '</a></td><td><a href = "#">' + Commande.Nom + '</a></td><td><a href = "#">' + Commande.NombreRepas + '</a></td><td><a href = "#" onclick="ShowConfirmModalCommand(' + Commande.IdCommand + ',' + Commande.NombreRepas + ')" class = "btn btn-primary btn-sm btn-block">commande prête </a></td></tr>';
+                        i++;
+                    }
+                    $("#bodyListe").html(string);
+                    $("#NombreCommandeAPreparer").html(res.NombreCommandeAPreparer);
+                    $("#NombreCommandePreparerNonEnleve").html(res.NombreCommandePreparerNonEnleve);
+                    $("#NombreCommandeDejaEnleve").html(res.NombreCommandeDejaEnleve);
+                    $("#DelaiMoyenPreparation").html(res.DelaiMoyenPreparation + ' H');
+                    $("#DateEtHeureDerniereMiseAjour").html(res.DateEtHeureDerniereMiseAjour);
+                });
+            }
+            setInterval(() => {
+                RefreshData();
+            }, 10000);
+
+            function ShowConfirmModalCommand(id, NbreRepas) {
+                $("#IdCommand").val(id);
+                $("#IdNbreRepas").html(NbreRepas);
+                $("#ConfirmModalCommand").modal('show');
+            }
+            function CommandePrete() {
+                $('#modal_load').modal();
+                let Id = $("#IdCommand").val();
+                $.post("/CommandePrete", { IdCommand: Id }, function (donnees) {
+                    console.log(donnees);
+                    setTimeout(() => {
+                        $('#modal_load').modal('hide');
+                        if (donnees == 0) {
+                            $("#message").html("Echec lors de la validation");
+                            $("#modal_message").modal();
+                        } else if (donnees == 1) {
+                            $("#message").html("Commande prête enregistré ...");
+                            $("#modal_message").modal();
+                            setTimeout(() => {
+                                location.assign("/ListeRestaurants");
+                            }, 1500);
+                        }
+                    }, 1000);
+
+                });
+            }
+        </script>

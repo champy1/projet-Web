@@ -1,0 +1,71 @@
+<%- include('partial/Header')  %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des restaurants</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Adress</th>
+                                <th>Ville</th>
+                                <th>Nom</th>
+                                <th>Note</th>
+                                <th>Spécialité</th>
+                                <th>-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let i =1; for (const resto of ListeRestos) { %>
+                                <tr>
+                                    <td>
+                                        <span><%= i %></span>
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>">
+                                            <%= resto.address %>
+                                        </a>
+
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>">
+                                            <%= resto.address_short %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>">
+                                            <%= resto.name %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>">
+                                            <%= resto.rating %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>">
+                                            <%= resto.type_of_food %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/commande/<%= resto.id %>" class="btn btn-primary btn-sm btn-block">
+                                            Passer une commande
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% i++ } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('partial/Footer')  %>

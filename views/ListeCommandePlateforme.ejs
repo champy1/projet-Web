@@ -1,0 +1,195 @@
+<%- include('partial2/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Gestionnaire</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des commandes </li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <div class="row">
+
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeEnCours">
+                                <%= NombreCommandeEnCours %>
+                            </h1>
+                            <span class="price-tax">Commandes en cours</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeEnAttenteDenlevement">
+                                <%= NombreCommandeEnAttenteDenlevement %>
+                            </h1>
+                            <span class="price-tax">Commandes en attente d'enlevement</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeCollecte">
+                                <%= NombreCommandeCollecte %>
+                            </h1>
+                            <span class="price-tax">Le nombre de repas collectés</span>
+                            <br>
+                        </div>
+                        <div class="product_price col-md-2">
+                            <h1 id="NombreCommandeDelivre">
+                                <%= NombreCommandeDelivre %>
+                            </h1>
+                            <span class="price-tax">Le nombre de repas délivrés</span>
+                            <br>
+                        </div>
+                    </div>
+                    <a style="text-decoration: underline;" href="/vider_pile_commande">Vider la pile de commandes</a>
+
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date et heure de livraison</th>
+                                <th>Adresse de livraison</th>
+                                <th>Nom du restaurant</th>
+                                <th>Date et heure de préparation</th>
+                                <th>Nom du Livreur</th>
+                                <th>Date et heure d'enlevement</th>
+                                <th>Date et heure de livraison</th>
+                                <th>Etat de la commande</th>
+                                <th>Annuler</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyListe">
+                            <% let i=1; for (const Commande of ListeDesCommandes) { %>
+                                <tr>
+                                    <td>
+                                        <%= i %>
+                                    </td>
+                                    <td>
+                                        <%=(moment(Commande.Date).format('MM-DD-YYYY HH:mm:ss'))%>
+                                    </td>
+                                    <td>
+                                        <a href="#">
+                                            Commune : <%= (Commande.Commune) %> <br>
+                                                Rue: <%= (Commande.Rue) %> <br>
+                                                    Numéro de maison: <%= (Commande.NumeroMaison) %> <br>
+                                                        Numéro de boite: <%= (Commande.NumeroBoite) %> <br>
+                                                            Code Postal<%= (Commande.CodePostal) %>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <%= Commande.Resto.name %>
+                                    </td>
+                                    <td>
+                                        <%=(moment(Commande.DatePrepare).format('MM-DD-YYYY HH:mm:ss'))%>
+                                    </td>
+                                    <td>
+                                        <%= Commande.Livreur %>
+                                    </td>
+                                    <td>
+                                        <%=(moment(Commande.DateEnlevement).format('MM-DD-YYYY HH:mm:ss'))%>
+                                    </td>
+                                    <td>
+                                        <%=(moment(Commande.DateLivraison).format('MM-DD-YYYY HH:mm:ss'))%>
+                                    </td>
+                                    <td>
+                                        <% if(Commande.Etat==0) { %>
+                                            Créé
+                                            <% }%>
+                                            <% if(Commande.Etat==1) { %>
+                                                Préparé
+                                                <% }%>
+                                                <% if(Commande.Etat==2) { %>
+                                                    Enlevé
+                                                    <% }%>
+                                                    <% if(Commande.Etat==3) { %>
+                                                        Livré
+                                                        <% }%>
+                                                        <% if(Commande.Etat==4) { %>
+                                                            Annulé
+                                                            <% }%>
+                                    </td>
+                                    <td>
+                                        <a href="#" onclick="ShowConfirmModalCommand('<%= Commande.IdCommand %>')"
+                                            class="btn btn-primary btn-sm btn-block">
+                                            Annuler </a>
+                                    </td>
+                                </tr>
+                                <% i++ } %>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="ConfirmModalCommand" tabindex="-1"
+        role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <input type="hidden" id="IdCommand" name="">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Annuler la commande ?</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Veuillez confirmer votre action?.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                    <button type="button" onclick='AnnulerCommande()' data-dismiss="modal"
+                        class="btn btn-danger">OUI</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <%- include('partial2/Footer') %>
+        <script>
+            function ShowConfirmModalCommand(id) {
+                $("#IdCommand").val(id);
+                $("#ConfirmModalCommand").modal('show');
+            }
+            function AnnulerCommande() {
+                $('#modal_load').modal();
+                let Id = $("#IdCommand").val();
+                $.post("/AnnulerCommande", { IdCommand: Id }, function (donnees) {
+                    console.log(donnees);
+                    setTimeout(() => {
+                        $('#modal_load').modal('hide');
+                        if (donnees == 0) {
+                            $("#message").html("Echec lors de l'annulation");
+                            $("#modal_message").modal();
+                        } else if (donnees == 1) {
+                            $("#message").html("Commande annulée avec succès ...");
+                            $("#modal_message").modal();
+                            setTimeout(() => {
+                                location.assign("/Gestionnaire");
+                            }, 1500);
+                        }
+                    }, 1000);
+
+                });
+            }
+            function RefreshData() {
+                $.post("/refreshGestionnaire", {}, function (donnees) {
+                    let res = JSON.parse(donnees);
+                    let string = "";
+                    let i = 1;
+                    for (const Commande of res.ListeDesCommandes) {
+                        string += '<tr><td>' + i + '</td><td>' + Commande.Date + '</td><td><a href="#">Commune : ' + (Commande.Commune) + ' <br>Rue: ' + (Commande.Rue) + ' <br>Numéro de maison: ' + (Commande.NumeroMaison) + ' <br>Numéro de boite: ' + (Commande.NumeroBoite) + ' <br>Code Postal' + (Commande.CodePostal) + '</a></td><td>' + Commande.Resto.name + '</td><td>' + Commande.DatePrepare + '</td><td>' + Commande.Livreur + '</td><td>' + Commande.DateEnlevement + '</td><td>' + Commande.DateLivraison + '</td><td>' + Commande.Etat + '</td></tr>';
+                        i++;
+                    }
+                    $("#bodyListe").html(string);
+                    $("#NombreCommandeEnCours").html(res.NombreCommandeEnCours);
+                    $("#NombreCommandeEnAttenteDenlevement").html(res.NombreCommandeEnAttenteDenlevement);
+                    $("#NombreCommandeCollecte").html(res.NombreCommandeCollecte);
+                    $("#DelaiMoyenPreparation").html(res.DelaiMoyenPreparation);
+                    $("#NombreCommandeDelivre").html(res.NombreCommandeDelivre);
+                });
+            }
+            setInterval(() => {
+                RefreshData();
+            }, 10000);
+        </script>

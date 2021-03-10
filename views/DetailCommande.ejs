@@ -1,0 +1,178 @@
+<%- include('partial/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Détail sur la commande</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-12" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content col-md-12">
+                    <h2>Nouvelle Commande</h2>
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                    Date
+
+                                </td>
+                                <td>
+
+                                    <%= (moment(Commande.Date).format('MM-DD-YYYY HH:mm:ss')) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Nom du Client
+
+                                </td>
+                                <td>
+
+                                    <%= (Commande.Nom) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Sexe
+                                </td>
+                                <td>
+
+                                    <%= (Commande.Sexe) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Telephone
+
+                                </td>
+                                <td>
+
+                                    <%= (Commande.Telephone) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Nombre de repas
+
+                                </td>
+                                <td>
+
+                                    <%= (Commande.NombreRepas) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Rue
+
+                                </td>
+                                <td>
+
+                                    <%= (Commande.Rue) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Numéro de la maison
+
+                                </td>
+                                <td>
+
+                                    <%= (Commande.NumeroMaison) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Numéro de la boite
+                                </td>
+                                <td>
+
+                                    <%= (Commande.NumeroBoite) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Code postal
+                                </td>
+                                <td>
+
+                                    <%= (Commande.CodePostal) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    Commune </td>
+                                <td>
+
+                                    <%= (Commande.Commune) %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><button onclick="$('#ConfirmModal').modal('show')" class="btn btn-primary btn-block btn-sm">Confirmer la commande</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="ConfirmModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Nouvelle commande!</h4>
+                    <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <p>Cette commande sera envoyé auprès du restaurant</p>
+                    <p>Êtes vous sûr de votre action?.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                    <button type="button" onclick='ValiderCommande()' data-dismiss="modal" class="btn btn-danger">OUI</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%- include('partial/Footer') %>
+        <script>
+            function ValiderCommande() {
+                $('#modal_load').modal();
+                let NewCommande = <%- JSON.stringify(Commande)%>;
+                $.post("/confirmer_commande", NewCommande, function(donnees) {
+                    console.log(donnees);
+                    setTimeout(() => {
+                        $('#modal_load').modal('hide');
+                        if (donnees == 0) {
+                            $("#message").html("Echec lors de l'enregistrement de la commande");
+                            $("#modal_message").modal();
+                        } else if (donnees == 1) {
+                            $("input").val("");
+                            $("#message").html("Enregistrement de la commande Réussi ...");
+                            $("#modal_message").modal();
+                            setTimeout(() => {
+                                location.assign("/Home");
+                            }, 1500);
+                        }
+                    }, 1000);
+
+                });
+            }
+        </script>

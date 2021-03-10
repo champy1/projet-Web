@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Restaurant</title>
+
+    <link href="../../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../assets/rest/css/custom.min.css" rel="stylesheet">
+    <link href="../../assets/bootstrap/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="../../assets/bootstrap/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/bootstrap/css/bootstrap-select.min.css">
+
+</head>
+
+<body class="nav-md">
+    <script>
+        function isInputNumber(evt) {
+            var ch = String.fromCharCode(evt.which);
+
+            if (!/[0-9]/.test(ch)) {
+                evt.preventDefault();
+            }
+        }
+    </script>
+    <div class="container body">
+       
+        <div class="right_col " role="main ">
+
+            <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="modal_load" tabindex="-1" role="dialog" aria-hidden="true">
+                <div role="document" class="modal-dialog">
+                    <div class="modal-content" style=" border-radius: 10px;">
+                        <img src="/img/loader_2.gif" style="width: 100%;" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="modal_message" tabindex="-1" role="dialog" aria-hidden="true">
+                <div role="document" class="modal-dialog">
+                    <div class="modal-content" style=" border-radius: 10px;margin-top: 200px;">
+                        <div class="modal-header">
+                            <h6 id="label_modal_message" class="modal-title">Alerte ! </h6>
+                            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                                        aria-hidden="true">×</span></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="message">sdsds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>

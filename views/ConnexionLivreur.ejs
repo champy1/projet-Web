@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> Livreur</title>
+    <link rel="stylesheet" type="text/css" href="css/connexion.css">
+</head>
+
+<body>
+    <div class="container" id="container">
+
+        <div class="overlay-container">
+            <img style="background-size:100%;" src="img/LoginBackground.jpg" alt="">
+        </div>
+        <div class="form-container sign-in-container">
+            <form method="POST" class="form-login" action="/connexion-livreur">
+                <h1 style="padding-bottom: 15px"> Connexion</h1>
+                <input type="Nom" name="Nom" id="Nom" placeholder="Nom">
+                <span id="SpanNom" class="text-danger"></span>
+                <input type="Prenom" name="Prenom" id="Prenom" placeholder="Prenom">
+                <span id="SpanPrenom" class="text-danger"></span>
+                <button type="submit" style="margin-top: 10px"> Connexion ...</button>
+            </form>
+        </div>
+    </div>
+    <script src="assets/jquery/jquery.min.js"></script>
+    <script>
+        let Nom, Prenom;
+        let SpanNom, SpanPrenom;
+        SpanNom = $("#SpanNom");
+        SpanPrenom = $("#SpanPrenom");
+        
+        $('.form-login').submit(function (e) {
+            
+            let IsGood = true;
+            Nom = $("#Nom").val().trim();
+            Prenom = $("#Prenom").val().trim();
+            if (Nom.length<3) {
+                SpanNom.html("Le nom doit contenir minimum 3 letrres");
+                IsGood = false;
+            } else {
+                SpanNom.html('');
+            }
+            if (Prenom.length<3) {
+                SpanPrenom.html("Le prénom doit contenir minimum 3 lettres");
+                IsGood = false;
+            } else {
+                SpanPrenom.html('');
+            }
+
+            if (!IsGood) {
+                e.preventDefault();
+            }
+        });
+    </script>
+    <style>
+        span{
+            color: red;
+        }
+    </style>
+</body>
+
+</html>

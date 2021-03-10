@@ -1,0 +1,124 @@
+<%- include('partial2/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Liste des commandes à livrer</li>
+        </ol>
+    </nav>
+    <h2 style="text-align: center;">Liste des commande à Livrer (Mr <%= (Livreur.Nom +' '+Livreur.Prenom) %>)
+    </h2>
+
+    <table class="table table-sm table-striped table-bordered" style="width:100%">
+        <thead>
+            <th>#</th>
+            <th>Date Création</th>
+            <th>Nom client</th>
+            <th>Téléphone</th>
+            <th>Adresse du client</th>
+            <th>Nombre de repas</th>
+        </thead>
+        <tbody>
+            <% let i=1; for (const Commande of ListeCommandeALivrer) { %>
+                <tr>
+                    <td>
+                        <span>
+                            <%= i %>
+                        </span>
+                    </td>
+                    <td>
+                        <a href="#">
+                            <%=(moment(Commande.Date).format('MM-DD-YYYY HH:mm:ss'))%>
+                        </a>
+
+                    </td>
+                    <td>
+                        <a href="#">
+                            <%= Commande.Nom %>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#">
+                            <%= Commande.Telephone %>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#">
+                            Commune : <%= (Commande.Commune) %>  <br>
+                            Rue: <%= (Commande.Rue) %> <br>
+                            Numéro de maison: <%= (Commande.NumeroMaison) %> <br>
+                            Numéro de boite: <%= (Commande.NumeroBoite) %> <br>
+                            Code Postal<%= (Commande.CodePostal) %>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#">
+                            <%= Commande.NombreRepas %>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="#"
+                            onclick="ShowConfirmModalCommand(' <%=Commande.IdCommand %>')" class="btn btn-primary
+            btn-sm btn-block"> confirmer la livraison </a>
+            </td>
+            </tr>
+            <% i++ } %>
+                </tbody>
+                </table>
+
+                </div>
+                <%- include('partial2/Footer') %>
+
+
+                    <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="ConfirmModalCommand"
+                        tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <input type="hidden" id="IdCommand" name="">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Livraison terminée!</h4>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Etes cous sûr de vouloir confirmer la fin de cette livraison?</p>
+                                    <p>Veuillez confirmer votre action ? </p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                                    <button type="button" onclick='CommandeLivree()' data-dismiss="modal"
+                                        class="btn btn-danger">OUI</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <script>
+                        function ShowConfirmModalCommand(id) {
+                            $("#IdCommand").val(id);
+                            $("#ConfirmModalCommand").modal('show');
+                        }
+                        function CommandeLivree() {
+                            $('#modal_load').modal();
+                            let Id = $("#IdCommand").val();
+                            $.post("/CommandeLivree", { IdCommand: Id }, function (donnees) {
+                                console.log(donnees);
+                                setTimeout(() => {
+                                    $('#modal_load').modal('hide');
+                                    if (donnees == 0) {
+                                        $("#message").html("Echec lors de la validation");
+                                        $("#modal_message").modal();
+                                    } else if (donnees == 1) {
+                                        $("#message").html("Livraison enregistrée ...");
+                                        $("#modal_message").modal();
+                                        setTimeout(() => {
+                                            location.assign("/ConnexionLivreur");
+                                        }, 1500);
+                                    }
+                                }, 1000);
+
+                            });
+                        }
+                    </script>

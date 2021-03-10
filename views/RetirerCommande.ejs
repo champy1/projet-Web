@@ -1,0 +1,104 @@
+<%- include('partial3/Header') %>
+    <nav aria-label="breadcrumb" class="nav-breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Enlever une commande</li>
+        </ol>
+    </nav>
+    <h2 style="text-align: center;"> ENLEVER UNE COMMANDE (Mr <%= (Livreur.Nom +' '+Livreur.Prenom) %>)
+    </h2>
+
+    <div class="row form-commande" >
+        <div class="col-md-10" style="display: block;margin: 0px auto;">
+            <div class="x_panel">
+                <div class="x_content">
+                    Restaurant
+                    <table class="table table-sm table-striped table-bordered" style="width:100%">
+                        <tbody>
+                            <tr>
+                                <td>
+
+                                    <%= Resto.address %>
+
+                                </td>
+                                <td>
+
+                                    <%= Resto.address_short %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.name %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.rating %>
+                                </td>
+                                <td>
+
+                                    <%= Resto.type_of_food %>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <button href="#" onclick="$(' #ConfirmModal').modal('show')"
+            class="btn btn-primary btn-sm btn-block"><span class="fa fa-save"> </span> Enlever une commande </button>
+                    <a style="text-decoration: underline;" href="/liste_commande_a_livrer/<%= JSON.stringify(Livreur) %>">Liste des Commandes déjà enlevée</a>
+            </div>
+            </div>
+
+
+            </div>
+            </div>
+
+            <div class="modal fade bs-example-modal-lg" style="background: #1a4ad924;" id="ConfirmModal" tabindex="-1"
+                role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">Retrait d'une commande!</h4>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Veuillez entrer le code de la commande</p>
+                            <input type="number" min="1" name="CommandId" id="CommandId" class="form-control col-md-12">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">NON</button>
+                            <button type="button" onclick='EnleverCommande()' data-dismiss="modal" class="btn btn-danger">Confirmer</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+
+            <%- include('partial3/Footer') %>
+                <script>
+                    function EnleverCommande() {
+                        $('#modal_load').modal();
+                        let CommandId = $("#CommandId").val().trim();
+                        let NomLivreur = "<%- (Livreur.Nom + ' ' + Livreur.Prenom) %>";
+                        $.post("/enlever_commande", { IdCommand: CommandId, Livreur: NomLivreur }, function (donnees) {
+                            console.log(donnees);
+                            setTimeout(() => {
+                                $('#modal_load').modal('hide');
+                                if (donnees == 0) {
+                                    $("#message").html("Echec lors de l'enlèvement , veuillez vérifier le numéro de la commande");
+                                    $("#modal_message").modal();
+                                } else if (donnees == 1) {
+                                    $("#message").html("Succès lors de l'enlevement ...");
+                                    $("#modal_message").modal();
+                                    setTimeout(() => {
+                                        location.assign('/liste_commande_a_livrer/<%- JSON.stringify(Livreur) %>');
+                                    }, 1500);
+                                }
+                            }, 1000);
+
+                        });
+                    }
+                </script>
